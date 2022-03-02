@@ -13,8 +13,8 @@ const TodoSchema = new Schema({
     required: true,
   },
   status: {
-    type: Boolean,
-    default: 0,
+    type: String,
+    default: "0",
   }
 });
 
