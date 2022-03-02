@@ -1,10 +1,12 @@
-import { Button, Form, } from 'react-bootstrap';
+import { Button, Form, Card, } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 export default function UpdateTodoForm() {
+
+    const history = useHistory();
 
     let todoId = useParams().id;
 
@@ -52,6 +54,11 @@ export default function UpdateTodoForm() {
                     timer: 1500
                 });
 
+                setTimeout(() => {
+                    history.push('/');
+                }, 2000);
+
+
             })
             .catch((err) => {
                 console.log(err)
@@ -60,21 +67,30 @@ export default function UpdateTodoForm() {
 
     return (
         <div className='container mt-5'>
-            <h1 className='text-center'>Update Todo</h1>
-            <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>ToDo Name</Form.Label>
-                    <Form.Control value={name} type="text" placeholder="Enter ToDo Name" onChange={(e) => { setname(e.target.value); }} />
-                </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control value={des} type="text" placeholder="Description" onChange={(e) => { setdes(e.target.value); }} />
-                </Form.Group>
-                <Button onClick={updteToDo} variant="primary" type="submit">
-                    Save
-                </Button>
-            </Form>
+            <Card className="">
+                <Card.Header><h1 className='text-center'>Update Todo</h1></Card.Header>
+                <Card.Body className='text-left'>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>ToDo Name</Form.Label>
+                            <Form.Control value={name} type="text" placeholder="Enter ToDo Name" onChange={(e) => { setname(e.target.value); }} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control value={des} type="text" placeholder="Description" onChange={(e) => { setdes(e.target.value); }} />
+                        </Form.Group>
+
+                    </Form>
+                </Card.Body>
+                <Card.Footer className="text-muted">
+                    <Button onClick={updteToDo} variant="primary" type="submit">
+                        Update
+                    </Button>
+                </Card.Footer>
+            </Card>
+
         </div>
     )
 }
