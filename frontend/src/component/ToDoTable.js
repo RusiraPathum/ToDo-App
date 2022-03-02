@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Table, thead, tr, tbody } from 'react-bootstrap';
 import axios from 'axios';
+import { confirmAlert } from "react-confirm-alert";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+
+
+// import "./todoTable.scss";
 
 function ToDoTable() {
 
@@ -24,28 +29,46 @@ function ToDoTable() {
 
     }
 
+
     function confirmationMessage(id) {
         confirmAlert({
-          title: "Confirm",
-          message: "Are you sure to delete this?",
-          buttons: [
-            {
-              label: "Yes",
-              onClick: () => {
-                deleteStudent(id);
-              },
+            customUI: ({ onClose }) => {
+                return (
+                    <div className="custom-ui text-center">
+                        <h1 className="text-center">Are you sure?</h1>
+                        <p className="text-center">You want to delete this Student?</p>
+                        <button className="btn btn-primary mr-3" onClick={onClose}>
+                            No
+                        </button>
+                        <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                                // this.handleClickDelete();
+
+                                axios
+                                    .delete(`http://localhost:5000/todo/delete/${id}`)
+                                    .then(() => {
+
+                                        window.location.reload();
+                                    })
+                                    .catch((err) => {
+                                        alert(err.message);
+                                    });
+
+                                onClose();
+                            }}
+                        >
+                            Yes, Delete it!
+                        </button>
+                    </div>
+                );
             },
-            {
-              label: "No",
-              onClick: () => {},
-            },
-          ],
         });
-      }
+    }
 
     return (
         <div className='mt-5'>
-            <Table striped bordered hover>
+            <Table className='table table-striped text-center'>
                 <thead>
                     <tr>
                         <th>ToDo Name</th>
@@ -61,23 +84,37 @@ function ToDoTable() {
                                 <td>{item.name}</td>
                                 <td>{item.des}</td>
 
-                                {/* <button
-                                    className="btn btn-success mt-1"
-                                    onClick={() => {
-                                        updateStudent(std._id);
-                                    }}
-                                >
-                                    Edit
-                                </button>
-                                <Link to={`/Update/` + std._id} className="btn btn-success">Edit</Link> */}
-                                <button
-                                    className="btn btn-danger ml-3 mt-1"
-                                    onClick={() => {
-                                        confirmationMessage(item._id);
-                                    }}
-                                >
-                                    Delete
-                                </button>
+
+                                {/* <Link to={`/Update/` + std._id} className="btn btn-success">Edit</Link> */}
+
+                                <td>
+                                    <Link
+                                        className="btn btn-warning mr-3" to={`/update/${item._id}`}>
+                                        Edit
+                                    </Link>
+
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => {
+                                            confirmationMessage(item._id);
+                                            // alert(item._id);
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
+
+                                    <button
+                                        className="btn btn-success pl-5"
+                                        onClick={() => {
+                                            // confirmationMessage(item._id);
+                                            alert(item._id);
+                                        }}
+                                    >
+                                        Complete
+                                    </button>
+
+                                </td>
+
                             </tr>
                         );
                     })}

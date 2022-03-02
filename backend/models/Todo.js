@@ -9,12 +9,13 @@ const TodoSchema = new Schema({
     required: true,
   },
   des: {
-    type: Number,
+    type: String,
     required: true,
   },
   status: {
     type: Boolean,
-  },
+    default: 0,
+  }
 });
 
 //Create table (Documents)
