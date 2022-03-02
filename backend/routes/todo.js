@@ -56,7 +56,7 @@ router.route("/update/:id").put(async (req, res) => {
 
   // console.log(updateTodo);
 
-  await Todo.findByIdAndUpdate(todoId, {name:req.body.name, des:req.body.des})
+  await Todo.updateOne(todoId, {name:req.body.name, des:req.body.des})
     .then(() => {
       //status 200 -> successfull
       res.status(200).send({ status: "Todo Updated" });
@@ -98,6 +98,23 @@ router.route("/get/:id").get(async (req, res) => {
   })
 
 })
+
+//complete todo
+router.route("/complete/:id").put( async (req, res) => {
+
+  let todoId = req.params.id;
+
+  await Todo.findByIdAndUpdate(todoId, {status:req.body.status})
+    .then(() => {
+      //status 200 -> successfull
+      res.status(200).send({ status: "Todo Completed" });
+    })
+    .catch((err) => {
+      console.log(err);
+      //status 500 -> error
+      res.status(500).send({ status: "Error with Completing Todo", error: err.message });
+    });
+});
 
 //module export
 module.exports = router;

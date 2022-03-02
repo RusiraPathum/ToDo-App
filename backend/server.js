@@ -1,3 +1,4 @@
+//import
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -21,7 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
 
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("Mongodb Connection success!");
+  console.log("Mongodb Connection successfull!");
 });
 
 app.listen(process.env.PORT || 5000, () => {

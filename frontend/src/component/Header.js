@@ -6,7 +6,7 @@ function Header() {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to = "/">
-          ToDo List
+          ToDo List Aplication
         </Link>
         <button
           className="navbar-toggler"
@@ -19,11 +19,11 @@ function Header() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul className="navbar-nav ">
             
             <li className="nav-item ">
-              <Link to = "/add"className="nav-link">
+              <Link style={{fontWeight: 800}} to = "/add"className="nav-link">
               <i class="fa fa-plus"></i> Add ToDo
               </Link>
             </li>
