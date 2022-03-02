@@ -4,16 +4,16 @@ const router = require("express").Router();
 //import model
 let Todo = require("../models/Todo");
 
-//CRUD
-//create data
+
+//add todo
 router.route("/add").post((req, res) => {
-  //arrow function
 
   const name = req.body.name;
   const des = req.body.des;
+  const status = 0;
 
   //create object
-  const newTodo = new Todo({ name, des });
+  const newTodo = new Todo({ name, des, status });
 
   //send database
   newTodo
@@ -28,7 +28,7 @@ router.route("/add").post((req, res) => {
     });
 });
 
-//read data
+//read todo
 router.route("/").get((req, res) => {
   Todo.find()
     .then((todo) => {
@@ -39,69 +39,63 @@ router.route("/").get((req, res) => {
     });
 });
 
-//update
+//update todo
 router.route("/update/:id").put(async (req, res) => {
-  //fetch backend url user id
-  let userId = req.params.id;
+  //fetch backend url todo id
+  let todoId = req.params.todoId;
 
   //updated data (destructer)
-  const { name, age, gender } = req.body;
+  const name = req.body.name;
+  const des = req.body.des;
 
   //update object
-  const updateStudent = {
+  const updateTodo = {
     name,
-    age,
-    gender,
+    des,
   };
 
-  //find student related this id
-  //nic, email -> findOneAndUpdate
-  //await -> not crash
+  // console.log(updateTodo);
 
-  //status 200 -> successfull
-  // res.status(200).send({status: "User Updated", user: update})
-
-  const update = await Student.findByIdAndUpdate(userId, updateStudent)
+  const update = await Todo.findByIdAndUpdate(todoId, updateTodo)
     .then(() => {
       //status 200 -> successfull
-      res.status(200).send({ status: "User Updated" });
+      res.status(200).send({ status: "Todo Updated" });
     })
     .catch((err) => {
       console.log(err);
       //status 200 -> error
-      res.status(500).send({ status: "Error with updating data", error: err.message });
+      res.status(500).send({ status: "Error with updating Todo", error: err.message });
       //   res.status(500).send({ status: "Error with updating data", error: err.message });
     });
 });
 
 
-//delete user
+//delete todo
 router.route("/delete/:id").delete(async (req, res) => {
 
-  //get userId
-  let userId = req.params.id;
+  //get todoId
+  let todoId = req.params.id;
 
-  await Student.findByIdAndDelete(userId).then(() => {
-    res.status(200).send({ status: "User Deleted" });
+  await Todo.findByIdAndDelete(todoId).then(() => {
+    res.status(200).send({ status: "Todo Deleted" });
   }).catch((err) => {
     console.log(err);
-    res.status(500).send({ status: "Error with delete user", error: err.message });
+    res.status(500).send({ status: "Error with delete Todo", error: err.message });
   })
 
 })
 
 
-//get one user
+//get one todo
 router.route("/get/:id").get(async (req, res) => {
 
-  let userId = req.params.id;
+  let todoId = req.params.id;
 
-  const user = await Student.findById(userId).then((student) => {
-    // res.status(200).send({status : "User fetched", student})
-    res.json(student)
+  const todo = await Todo.findById(todoId).then((response) => {
+    res.json(response)
   }).catch((err) => {
     console.log(err.message);
-    res.status(500).send({ status: "Error with get user", error: err.message })
+    res.status(500).send({ status: "Error with get todo", error: err.message })
   })
 
 })
