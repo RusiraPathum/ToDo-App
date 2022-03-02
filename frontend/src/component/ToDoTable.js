@@ -3,7 +3,7 @@ import { Button, Table, thead, tr, tbody} from 'react-bootstrap';
 
 function ToDoTable() {
     return (
-        <div>
+        <div className='mt-5'>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -20,12 +20,7 @@ function ToDoTable() {
                         <td>Otto</td>
                         <td>@mdo</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
+                    
                 </tbody>
             </Table>
         </div>
