@@ -41,14 +41,14 @@ router.route("/").get((req, res) => {
 
 //update todo
 router.route("/update/:id").put(async (req, res) => {
-  //fetch backend url todo id
+
   let todoId = req.params.todoId;
 
-  //updated data (destructer)
+  //updated todo data 
   const name = req.body.name;
   const des = req.body.des;
 
-  //update object
+  //update todo object
   const updateTodo = {
     name,
     des,
@@ -56,16 +56,15 @@ router.route("/update/:id").put(async (req, res) => {
 
   // console.log(updateTodo);
 
-  const update = await Todo.findByIdAndUpdate(todoId, updateTodo)
+  await Todo.findByIdAndUpdate(todoId, {name:req.body.name, des:req.body.des})
     .then(() => {
       //status 200 -> successfull
       res.status(200).send({ status: "Todo Updated" });
     })
     .catch((err) => {
       console.log(err);
-      //status 200 -> error
+      //status 500 -> error
       res.status(500).send({ status: "Error with updating Todo", error: err.message });
-      //   res.status(500).send({ status: "Error with updating data", error: err.message });
     });
 });
 
